@@ -6,10 +6,10 @@ T = x(2);
 P = x(3);
 X2 = x(4);
 coolant_failure = true;
-    if coolant_failure == false
+    if coolant_failure == false        % You can test both scenarios when coolant is running and not running and see its effect on temperature and pressure dynamics
         q = 500*(150-T);               % q = U*A*delT. U*A = 500, 150 is coolant temperature, T is system temperature.
     else
-        q = 0;   
+        q = 0;                         % Note when there is a coolant failure an explosion occurs.              
     end
     
 R = 8.314; %Pa*m^3/mol K
