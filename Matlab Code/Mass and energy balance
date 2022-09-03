@@ -1,0 +1,28 @@
+%This is a Batch Reactor. Assuming perfect mixing, no reaction or temperature gradients in tank.
+
+function diff = Balances(t,x)          % t = time, x = vector containing compositions of desired and undesired products, and temperature and pressure of the system
+X = x(1);
+T = x(2);
+P = x(3);
+X2 = x(4);
+coolant_failure = true;
+    if coolant_failure == false
+        q = 500*(150-T);               % q = U*A*delT. U*A = 500, 150 is coolant temperature, T is system temperature.
+    else
+        q = 0;   
+    end
+    
+R = 8.314; %Pa*m^3/mol K
+k1 = 400*exp(-40000/(R*(T+273.15)));   %Arrhenius eqn for desired rxn
+ra = k1*2.55*(1-X)*(4.3-2.55*X);
+k2 = 1e6*exp(-80000/(R*(T+273.15)));   %Arrhenius eqn for undesired rxn
+rb = k2*3*(1-X2);                      %First order rxn
+V = 6000;                              %Volume in liters            
+V2=3; %volume in m3
+dTdt = (q+45.4*ra*V+320*rb*V)/16e3;
+dXdt = k1*(1-X)*(4.3-2.55*X);
+dPdt = ((R/V2*(0.5*ra+3*rb)*6000+P*10^5/(T+273.15)^2*dTdt)*(T+273.15))/1e5;
+%volume of reaction (hence the formation of gas) is 6000L, volume of
+%accumulation is 3000. rb*6000 = 6000*3*dX2dt
+dX2dt = rb/3;                                %3 is initial concentration of reactant 2 (mol/L).
+diff = [dXdt;dTdt;dPdt;dX2dt]; 
