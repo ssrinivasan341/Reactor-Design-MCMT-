@@ -1,4 +1,6 @@
 %This is a Batch Reactor. Assuming perfect mixing, no reaction or temperature gradients in tank.
+%Volume of tank = 9000L; Volume of reaction = 6000L; Volume of headspace = 3000L.
+% Reaction type: Single phase liquid reaction
 
 function diff = Balances(t,x)          % t = time, x = vector containing compositions of desired and undesired products, and temperature and pressure of the system
 X = x(1);
