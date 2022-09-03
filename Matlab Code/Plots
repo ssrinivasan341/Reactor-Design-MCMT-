@@ -1,0 +1,23 @@
+tspan = [0 200];
+To = 150; % initial temperature of the system
+Xo = 0; % initial composition of desired product (MCMT)
+Po = 1; % initial pressure of the system
+Xo2 = 0; % initial composition of undesired product
+xo = [Xo;To;Po;Xo2]; %Initial condition vector
+[t,output] = ode113(@Balances,tspan,xo); %first order ODE solver
+
+%PLOTS 
+
+figure
+plot(t,output(:,1))
+title('X vs time')
+figure
+plot(t,output(:,2))
+title('T vs time')
+%subplot(2,2,[3,4]);
+figure
+plot(t,output(:,3))
+title('P vs time')
+%subplot(1,4,4);
+%plot(t,output(:,4))
+%title('X2 vs time')
